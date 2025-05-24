@@ -40,8 +40,8 @@ jobs:
           sudo chmod +x /usr/local/bin/chromedriver
           chromedriver --version
 
-      - name: Run tests with Maven
+      - name: Run TestNG + Cucumber tests
         run: |
           Xvfb :99 &
           export DISPLAY=:99
-          mvn test
+          mvn test -DsuiteXmlFile=testng.xml
