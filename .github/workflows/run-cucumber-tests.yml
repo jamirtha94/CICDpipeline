@@ -1,41 +1,47 @@
+name: Run Selenium Cucumber Tests
 
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
-    name: Run Selenium Cucumber Tests
+jobs:
+  test:
+    runs-on: ubuntu-latest
 
-    on:
-      push:
-        branches: [ main ]
-      pull_request:
-        branches: [ main ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    jobs:
-      test:
-        runs-on: ubuntu-latest
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-        steps:
-        - name: Checkout repository
-          uses: actions/checkout@v3
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget curl gnupg unzip
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo dpkg -i google-chrome-stable_current_amd64.deb || sudo apt-get -f install -y
+          google-chrome --version
 
-        - name: Set up Java
-          uses: actions/setup-java@v3
-          with:
-            distribution: 'temurin'
-            java-version: '17'
+      - name: Install ChromeDriver
+        run: |
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+' | head -1)
+          echo "Detected Chrome version: $CHROME_VERSION"
+          CHROMEDRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | jq -r ".channels.Stable.version")
+          echo "Installing ChromeDriver version $CHROMEDRIVER_VERSION"
+          wget "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$CHROMEDRIVER_VERSION/linux64/chromedriver-linux64.zip"
+          unzip chromedriver-linux64.zip
+          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/chromedriver
+          chromedriver --version
 
-        - name: Install Chrome and ChromeDriver
-          run: |
-            sudo apt update
-            sudo apt install -y wget unzip xvfb
-            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-            sudo apt install -y ./google-chrome-stable_current_amd64.deb
-            CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+\.\d+')
-            wget -q https://chromedriver.storage.googleapis.com/${CHROME_VERSION%%.*}/chromedriver_linux64.zip
-            unzip chromedriver_linux64.zip
-            sudo mv chromedriver /usr/local/bin/chromedriver
-            chmod +x /usr/local/bin/chromedriver
-
-        - name: Run Selenium tests
-          run: |
-            Xvfb :99 &
-            export DISPLAY=:99
-             mvn test -DsuiteXmlFile=testng.xml
+      - name: Run tests with Maven
+        run: |
+          Xvfb :99 &
+          export DISPLAY=:99
+          mvn test

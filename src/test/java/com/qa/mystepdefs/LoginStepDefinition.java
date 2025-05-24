@@ -11,8 +11,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import static org.junit.Assert.assertTrue;
 
 public class LoginStepDefinition{
-
     WebDriver driver = new ChromeDriver();
+
     @Given ("the user is on the login page")
     public void login_page(){
         System.out.println("login");
