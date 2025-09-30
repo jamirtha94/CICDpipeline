@@ -25,6 +25,8 @@ public class LoginStepDefinition{
             driver.findElement(By.id("user-name")).sendKeys("standard_user");
             driver.findElement(By.id("password")).sendKeys("secret_sauce");
             driver.findElement(By.id("login-button")).click();
+            System.out.println(driver.getTitle());
+
         }
      catch (AssertionError ae){
          System.out.println(ae.getMessage());
