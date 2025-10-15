@@ -10,9 +10,9 @@ public class LoginPage {
     private WebDriver driver;
 
     // Locators
-    private By emailInputLocator = By.name("email");
-    private By passwordInputLocator = By.name("password");
-    private By loginButtonLocator = By.xpath("//input[@type='submit']");
+    private By emailInputLocator = By.id("user-name");
+    private By passwordInputLocator = By.id("password");
+    private By loginButtonLocator = By.id("login-button");
     private By forgottenPasswordLinkLocator = By.linkText("Forgotten Password");
     private By logoutLinkLocator = By.linkText("Logout");
 
