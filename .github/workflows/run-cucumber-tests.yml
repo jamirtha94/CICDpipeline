@@ -11,37 +11,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout Code
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2️⃣ Set up Java (Temurin 17 is more stable for Maven/Selenium)
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '17'
+          cache: 'maven'
 
-      - name: Install Chrome
+      # 3️⃣ Install Google Chrome
+      - name: Install Google Chrome
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget curl gnupg unzip
+          sudo apt-get install -y wget curl gnupg unzip jq xvfb
           wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo dpkg -i google-chrome-stable_current_amd64.deb || sudo apt-get -f install -y
-          google-chrome --version
-
-      - name: Install ChromeDriver
-        run: |
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+' | head -1)
-          echo "Detected Chrome version: $CHROME_VERSION"
-          CHROMEDRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | jq -r ".channels.Stable.version")
-          echo "Installing ChromeDriver version $CHROMEDRIVER_VERSION"
-          wget "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$CHROMEDRIVER_VERSION/linux64/chromedriver-linux64.zip"
-          unzip chromedriver-linux64.zip
-          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
-          sudo chmod +x /usr/local/bin/chromedriver
-          chromedriver --version
-
-      - name: Run TestNG + Cucumber tests
-        run: |
-          Xvfb :99 &
-          export DISPLAY=:99
-          mvn test -DsuiteXmlFile=testng.xml
+          sudo dpkg -i google-chrome-stable_current_amd64.deb || sudo apt-get -f instal

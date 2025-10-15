@@ -7,6 +7,7 @@ import org.testng.annotations.DataProvider;
 
 
 @CucumberOptions(features = "src/test/resources/features/loginpage.feature",
+        tags = "@first",
         glue = {"com.qa.mystepdefs"},
         plugin = {"pretty", "html:target/cucumber-reports", "json:target/cucumber.json"},
         monochrome = true,
