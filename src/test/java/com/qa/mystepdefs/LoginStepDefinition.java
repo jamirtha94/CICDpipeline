@@ -6,9 +6,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import pages.LoginPage;
 
+
+import javax.swing.*;
 
 import static org.junit.Assert.assertTrue;
 
@@ -29,7 +32,7 @@ public class LoginStepDefinition{
     @Given ("the user is on the login page")
     public void login_page(){
         System.out.println("login");
-        driver.navigate().to("https://www.saucedemo.com/v1/");
+        driver.navigate().to("https://www.saucedemo.com/");
         loginPage = new LoginPage(driver);
 
     }
@@ -44,6 +47,9 @@ public class LoginStepDefinition{
 
     @Then ("the user should be redirected to the dashboard")
     public void dashboard(){
+        String actual_title= driver.getTitle();
+        String title = "Swag Labs";
+        Assert.assertEquals(actual_title,title);
         System.out.println("credentials");
     }
 
@@ -59,9 +65,17 @@ public class LoginStepDefinition{
 
     @Then ("an {string} message should be displayed")
     public void error(String error){
-        WebElement actual_error = driver.findElement(By.xpath("//*[@id=\"login_button_container\"]/div/form/h3"));
+        WebElement actual_error = driver.findElement(By.xpath("//h3[text()='Epic sadface: Username and password do not match any user in this service']"));
         String actualerror = actual_error.getText();
         System.out.println("error message is:"+ actualerror);
+    }
+    @Then("user perform mouse action to click item")
+    public void mouse_action(){
+        WebElement img = driver.findElement(By.xpath("//a/img[@alt='Sauce Labs Backpack']"));
+        Actions action = new Actions(driver);
+        action.moveToElement(img).click().perform();
+        WebElement add_to_cart =  driver.findElement(By.cssSelector("button[id='add-to-cart']"));
+        action.moveToElement(add_to_cart).click().perform();
     }
 
 }
