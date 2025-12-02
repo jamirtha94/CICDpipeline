@@ -1,36 +1,28 @@
-    package com.qa.mystepdefs;
+package com.qa.mystepdefs;
+import java.util.ArrayList;
+import java.util.Arrays;
 
+public class SetCollection {
 
-    import java.util.ArrayList;
-    import java.util.Collections;
+    private static int remove_dups(ArrayList<Integer> list){
 
-    public class SetCollection {
-        public static void main(String args[]) {
-            int[] arr1 =
-                    {11,2, 3, 11, 4, 21,2,3,11};
-            ArrayList<Integer> array = new ArrayList<>();
+        ArrayList<Integer> list1 = new ArrayList<>();
+        int max= list.get(0);
+        for(int i=1;i<list.size();i++) {
+            if (max < list.get(i)) {
+                max = list.get(i);
 
-            for(int num: arr1){
-                array.add(num);
+                System.out.println("value of i and max: " + i + " " + max);
             }
-
-            Collections.sort(array);
-            System.out.println(array);
-
-//            int[] arr2= arr1;
-//              int count =0;
-//
-//            for(int i=0; i< arr1.length;i++) {
-//                for (int j = 0; j < arr2.length; j++) {
-//                    if (arr1[i] == arr2[j]) {
-//                        count++;
-//                    }
-//                }
-//                System.out.println("count of number:" + arr1[i] + "is" + count);
-//                count =0;
-//            }
-           // System.out.println(set1);
         }
+
+        return max;
     }
+    public static void main(String[] args){
 
+        ArrayList<Integer> list = new ArrayList<>(Arrays.asList(1,2,3,2,4,5,11,6,1,2,9));
+        int max = remove_dups(list);
+        System.out.println(max);
 
+    }
+}

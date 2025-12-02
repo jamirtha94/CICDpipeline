@@ -1,4 +1,5 @@
 package com.qa.mystepdefs;
+import driverfactory.DriverFactory;
 import io.cucumber.java.*;
 import io.cucumber.java.bs.A;
 import io.cucumber.java.en.*;
@@ -17,17 +18,20 @@ import static org.junit.Assert.assertTrue;
 
 public class LoginStepDefinition{
     private LoginPage loginPage;
-    private WebDriver driver =null;
-    @Before
-    public void setup() {
-        driver = new ChromeDriver();
-    }
-    @After
-    public void tearDown(){
-        if(driver!= null){
-            driver.quit();
-        }
-    }
+    private WebDriver driver = DriverFactory.getDriver();
+//    @Before
+//    public void setup() {
+//        if(driver == null) {
+//            driver = new ChromeDriver();
+//        }
+//    }
+//    @After
+//    public void tearDown(){
+//        if(driver!= null){
+//            driver.quit();
+//            driver = null;
+//        }
+//    }
 
     @Given ("the user is on the login page")
     public void login_page(){
