@@ -1,28 +1,30 @@
 package com.qa.mystepdefs;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
-public class Remove_Duplicate {
+class Account {
+    private int balance;
+    public void displayType() {
 
-    private static ArrayList<Integer> remove_dups(ArrayList<Integer> list){
-
-        ArrayList<Integer> list1 = new ArrayList<>();
-        for(int i=0;i<list.size();i++){
-            if(list1.contains(list.get(i))){
-                break;
-            }
-            else
-                list1.add(list.get(i));
-
+        System.out.println("This is a bank account" + balance);
+    }
+    public void setBalance(int balance){
+        if(balance> 0){
+            this.balance = balance;
         }
-
-        return list;
     }
-    public static void Main(String[] args){
+}
 
-        ArrayList<Integer> list = new ArrayList<>(Arrays.asList(1,2,3,2,4,5,1,6));
-        list = remove_dups(list);
-        System.out.println(list);
-
+class SavingsAccount extends Account {
+    public void interestRate() {
+        System.out.println("Interest rate: 5%");
     }
+    int balance = 1000;
+    @Override
+    public void displayType() {
+
+        System.out.println("This is a bank account" + balance);
+    }
+
+
+
 }

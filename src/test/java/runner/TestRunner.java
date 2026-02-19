@@ -6,8 +6,8 @@ import io.cucumber.testng.CucumberOptions;
 import org.testng.annotations.DataProvider;
 
 
-@CucumberOptions(features = "src/test/resources/features/loginpage.feature",
-//        tags = "@Valid",
+@CucumberOptions(features = "src/test/resources/features/Example.feature",
+//        tags = "@link_count",
         glue = {"com.qa.mystepdefs"},
         plugin = {"pretty", "html:target/cucumber-reports", "json:target/cucumber.json"},
         monochrome = true,

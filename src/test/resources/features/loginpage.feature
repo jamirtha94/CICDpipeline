@@ -1,7 +1,7 @@
 
 Feature: User Login
-  Background:
-    Given the user is on the login page
+#  Background:
+#    Given the user is on the login page
 @Valid
   Scenario: Valid user login
 
@@ -22,5 +22,10 @@ Feature: User Login
       When the user enters valid credentials
       Then user perform mouse action to click item
 #      Then user perform mouse add item
+  @Dynamic
+  Scenario: Dynamic webpage handling
+    Given user is on Amazon homepage
+    When user searches for laptop
+    Then search results should be displayed
 
 
